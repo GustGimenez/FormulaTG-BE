@@ -1,0 +1,14 @@
+--list [car|race]
+
+--create car driverName="" color="" equip=""
+--create race name=""
+
+--positions race=id cars=[ids]
+
+--start id
+
+--overview
+
+--overtake overtaking=carId overtaken=carId
+
+--finish

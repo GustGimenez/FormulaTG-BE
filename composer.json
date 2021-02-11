@@ -1,0 +1,17 @@
+{
+    "name": "gustavogimenez/formula-tg-be",
+    "type": "project",
+    "authors": [
+        {
+            "name": "GustGimenez",
+            "email": "gustavogdd2@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "FormulaTG\\": "src/",
+            "FormulaTG\\Config\\": "config/"
+        }
+    }
+}
