@@ -36,7 +36,7 @@ function entryComand(array $params)
         echo 'For help, use the "--help" command';
     }
 
-    identifyCommand($params);
+    echo identifyCommand($params) . PHP_EOL;
 }
 
 function removeUnwantedParams(array $params, string $commandName): array
@@ -50,54 +50,56 @@ function removeUnwantedParams(array $params, string $commandName): array
     return array_values($params);
 }
 
-function identifyCommand(array $params): void
+function identifyCommand(array $params): string
 {
     if (in_array('--list', $params)) {
         $params = removeUnwantedParams($params, '--list');
 
         $command = new ListCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
 
     if (in_array('--create', $params)) {
         $params = removeUnwantedParams($params, '--create');
 
         $command = new CreateCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
 
     if (in_array('--start', $params)) {
         $params = removeUnwantedParams($params, '--start');
 
         $command = new StartCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
 
     if (in_array('--positions', $params)) {
         $params = removeUnwantedParams($params, '--positions');
 
         $command = new PositionCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
 
     if (in_array('--overtake', $params)) {
         $params = removeUnwantedParams($params, '--overtake');
 
         $command = new OvertakeCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
 
     if (in_array('--overview', $params)) {
         $params = removeUnwantedParams($params, '--overview');
 
         $command = new OverviewCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
 
     if (in_array('--finish', $params)) {
         $params = removeUnwantedParams($params, '--finish');
 
         $command = new FinishCommand($params);
-        echo $command->execute();
+        return $command->execute();
     }
+
+    return 'Unidentified command';
 }
