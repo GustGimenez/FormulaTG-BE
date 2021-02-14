@@ -2,21 +2,12 @@
 
 namespace FormulaTG\Validators\Logic;
 
-use FormulaTG\Config\Database\Connection;
 use FormulaTG\Models\RaceStatus;
-use FormulaTG\Repositories\GenericRepository;
 use FormulaTG\Validators\Logic\ValidateLogic;
 use LogicException;
 
-class ValidateStartLogic implements ValidateLogic
+class ValidateStartLogic extends BaseValidateLogic implements ValidateLogic
 {
-    private GenericRepository $repository;
-
-    public function __construct()
-    {
-        $this->repository = new GenericRepository(Connection::createConnection());
-    }
-
     public function validate(array $params): void
     {
         $races = $this->repository->listAll('race');

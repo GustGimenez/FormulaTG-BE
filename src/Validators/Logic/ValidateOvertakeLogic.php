@@ -6,18 +6,16 @@ use FormulaTG\Config\Database\Connection;
 use FormulaTG\Models\Race;
 use FormulaTG\Models\RaceStatus;
 use FormulaTG\Repositories\CompetitorRepository;
-use FormulaTG\Repositories\GenericRepository;
 use LogicException;
 
-class ValidateOvertakeLogic implements ValidateLogic
+class ValidateOvertakeLogic extends BaseValidateLogic implements ValidateLogic
 {
-    private GenericRepository $repository;
     private CompetitorRepository $competitorRepository;
 
     public function __construct()
     {
+        parent::__construct();
         $conn = Connection::createConnection();
-        $this->repository = new GenericRepository($conn);
         $this->competitorRepository = new CompetitorRepository($conn);
     }
 
