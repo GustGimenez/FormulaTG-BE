@@ -7,7 +7,10 @@ use FormulaTG\Commands\Command;
 use FormulaTG\Exceptions\CommandException;
 use FormulaTG\Models\Car;
 use FormulaTG\Models\Race;
-use FormulaTG\Validators\Command\Create\CreateCommandValidation;
+use FormulaTG\Utils\Helper;
+use FormulaTG\Validators\Command\CountParams;
+use FormulaTG\Validators\Command\ParamsValues;
+use FormulaTG\Validators\Command\ParamsWereInformed;
 use FormulaTG\Validators\Logic\Create\ValidateCarCreationLogic;
 use FormulaTG\Validators\Logic\Create\ValidateRaceCreationLogic;
 
@@ -26,24 +29,26 @@ class CreateCommand extends Command
     {
         $this->identifyEntity();
 
-        $commandValidator = null;
+        $this->params = Helper::removeEntityFromParams($this->params);
+        $this->formedParams = Helper::formParams(array_values($this->params));
+
         $logicValidator = null;
+        $expectedParams = [];
 
         switch ($this->entity) {
             case 'car':
-                $commandValidator = new CreateCommandValidation(
-                    [
-                        'color', 
-                        'equip', 
-                        'driverName',
-                    ],
-                    'car',
-                );
+                $expectedParams = [
+                    'color', 
+                    'equip', 
+                    'driverName',
+                ];
+
                 $logicValidator = new ValidateCarCreationLogic();
                 break;
             
             case 'race':
-                $commandValidator = new CreateCommandValidation(['name'], 'race');
+                $expectedParams = ['name'];
+                
                 $logicValidator = new ValidateRaceCreationLogic();
                 break;
 
@@ -52,10 +57,15 @@ class CreateCommand extends Command
                 break;
         }
 
-        $formedParams = $commandValidator->validate($this->params);
-        $logicValidator->validate($formedParams);
+        $validateParamsQuantity = new CountParams('create', $expectedParams);
+        $validateIfInformed = new ParamsWereInformed('create', $expectedParams);
+        $validateParamsValues = new ParamsValues('create', $expectedParams);
 
-        $this->formedParams = $formedParams;
+        $validateIfInformed->setNext($validateParamsValues);
+        $validateParamsQuantity->setNext($validateIfInformed);
+
+        $validateParamsQuantity->validate($this->formedParams);
+        $logicValidator->validate($this->formedParams);
     }
 
     private function createEntity(): string

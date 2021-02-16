@@ -25,4 +25,11 @@ class Helper
 
         return false;
     }
+
+    public static function removeEntityFromParams(array $params): array
+    {
+        $entityIndex = array_search('car', $params);
+        unset($params[$entityIndex]);
+        return array_values($params);
+    }
 }

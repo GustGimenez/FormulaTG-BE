@@ -6,26 +6,16 @@ use Exception;
 use FormulaTG\Exceptions\CommandException;
 use FormulaTG\Models\Car;
 use FormulaTG\Models\Race;
-use FormulaTG\Repositories\GenericRepository;
+use FormulaTG\Validators\Command\CountParams;
 
 class ListCommand extends Command
 {
     private string $entity;
-    private array $entities = ['car', 'competitor', 'race'];
 
     protected function validate(): void
     {
-        if (count($this->params) === 0) {
-            throw new CommandException('Inform the entity to be listed');
-        }
-
-        if (count($this->params) > 1) {
-            throw new CommandException('The list command expects only the entity');
-        }
-        
-        if (!in_array($this->params[0], $this->entities)) {
-            throw new CommandException('The entity informed is not supported by the --list command');
-        }
+        $validateParamsQuantity = new CountParams('list', ['entity']);
+        $validateParamsQuantity->validate($this->params);
     }
 
     protected function identifyEntity(): void

@@ -4,15 +4,27 @@ namespace FormulaTG\Commands;
 
 use Exception;
 use FormulaTG\Models\Competitor;
-use FormulaTG\Validators\Command\PositionCommandValidation;
+use FormulaTG\Utils\Helper;
+use FormulaTG\Validators\Command\CountParams;
+use FormulaTG\Validators\Command\ParamsValues;
+use FormulaTG\Validators\Command\ParamsWereInformed;
 use FormulaTG\Validators\Logic\ValidatePositionLogic;
 
 class PositionCommand extends Command
 {
     protected function validate(): void
     {
-        $commandValidator = new PositionCommandValidation();
-        $this->params = $commandValidator->validate($this->params);
+        $this->params = Helper::formParams($this->params);
+
+        $expectedParams = ['race', 'cars'];
+        $validateParamsQuantity = new CountParams('positions', $expectedParams);
+        $validateIfParamsInformed = new ParamsWereInformed('positions', $expectedParams);
+        $validateParamsValues = new ParamsValues('positions', $expectedParams);
+
+        $validateIfParamsInformed->setNext($validateParamsValues);
+        $validateParamsQuantity->setNext($validateIfParamsInformed);
+
+        $validateParamsQuantity->validate($this->params);
 
         $logicValidator = new ValidatePositionLogic();
         $logicValidator->validate($this->params);

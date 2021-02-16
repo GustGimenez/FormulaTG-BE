@@ -8,15 +8,27 @@ use FormulaTG\Models\Overtake;
 use FormulaTG\Models\Race;
 use FormulaTG\Models\RaceStatus;
 use FormulaTG\Repositories\CompetitorRepository;
-use FormulaTG\Validators\Command\OvertakeCommandValidation;
+use FormulaTG\Utils\Helper;
+use FormulaTG\Validators\Command\CountParams;
+use FormulaTG\Validators\Command\ParamsValues;
+use FormulaTG\Validators\Command\ParamsWereInformed;
 use FormulaTG\Validators\Logic\ValidateOvertakeLogic;
 
 class OvertakeCommand extends Command
 {
     protected function validate(): void
     {
-        $commandValidator = new OvertakeCommandValidation();
-        $this->params = $commandValidator->validate($this->params);
+        $this->params = Helper::formParams($this->params);
+        
+        $expectedParams = ['overtaking', 'overtaken'];
+        $validateParamsQuantity = new CountParams('overtake', $expectedParams);
+        $validateIfParamsInformed = new ParamsWereInformed('overtake', $expectedParams);
+        $validateParamsValues = new ParamsValues('overtake', $expectedParams);
+
+        $validateIfParamsInformed->setNext($validateParamsValues);
+        $validateParamsQuantity->setNext($validateIfParamsInformed);
+
+        $validateParamsQuantity->validate($this->params);
 
         $logicValidator = new ValidateOvertakeLogic();
         $logicValidator->validate($this->params);
