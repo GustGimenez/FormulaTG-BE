@@ -6,15 +6,16 @@ use Exception;
 use FormulaTG\Config\Database\Connection;
 use FormulaTG\Models\RaceStatus;
 use FormulaTG\Repositories\RaceRepository;
-use FormulaTG\Validators\Command\StartCommandValidation;
+use FormulaTG\Validators\Command\CountParams;
 use FormulaTG\Validators\Logic\ValidateStartLogic;
 
 class StartCommand extends Command
 {
     protected function validate(): void
     {
-        $commandValidator = new StartCommandValidation();
-        $commandValidator->validate($this->params);
+        $expectedParams = ['race'];
+        $validateParamsQuantity = new CountParams('start', $expectedParams);
+        $validateParamsQuantity->validate($this->params);
 
         $logicValidator = new ValidateStartLogic();
         $logicValidator->validate($this->params);
