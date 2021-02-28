@@ -4,8 +4,19 @@ namespace FormulaTG\Commands;
 
 use Exception;
 use FormulaTG\Exceptions\CommandException;
+use ReflectionClass;
 
 class CommandEntry {
+    private const COMMANDS = [
+        '--list' => ListCommand::class,
+        '--create' => CreateCommand::class,
+        '--finish' => FinishCommand::class,
+        '--overtake' => OvertakeCommand::class,
+        '--overview' => OverviewCommand::class,
+        '--positions' => PositionCommand::class,
+        '--start' => StartCommand::class,
+    ];
+
     public static function commandLoop(): void
     {
         echo '----- Welcome to Gutavo\'s Formula TG -----' . PHP_EOL . PHP_EOL;
@@ -122,53 +133,14 @@ class CommandEntry {
 
         $params = self::prepareParams($command);
 
-        if (in_array('--list', $params)) {
-            $params = self::removeUnwantedParams($params, '--list');
-    
-            $command = new ListCommand($params);
-            return $command->execute();
-        }
-    
-        if (in_array('--create', $params)) {
-            $params = self::removeUnwantedParams($params, '--create');
-    
-            $command = new CreateCommand($params);
-            return $command->execute();
-        }
-    
-        if (in_array('--start', $params)) {
-            $params = self::removeUnwantedParams($params, '--start');
-    
-            $command = new StartCommand($params);
-            return $command->execute();
-        }
-    
-        if (in_array('--positions', $params)) {
-            $params = self::removeUnwantedParams($params, '--positions');
-    
-            $command = new PositionCommand($params);
-            return $command->execute();
-        }
-    
-        if (in_array('--overtake', $params)) {
-            $params = self::removeUnwantedParams($params, '--overtake');
-    
-            $command = new OvertakeCommand($params);
-            return $command->execute();
-        }
-    
-        if (in_array('--overview', $params)) {
-            $params = self::removeUnwantedParams($params, '--overview');
-    
-            $command = new OverviewCommand($params);
-            return $command->execute();
-        }
-    
-        if (in_array('--finish', $params)) {
-            $params = self::removeUnwantedParams($params, '--finish');
-    
-            $command = new FinishCommand($params);
-            return $command->execute();
+        foreach (self::COMMANDS as $command => $className) {
+            if (in_array($command, $params)) {
+                $params = self::removeUnwantedParams($params, $command);
+
+                $reflectionClass = new ReflectionClass($className);
+                $command = $reflectionClass->newInstanceArgs(['params' => $params]);
+                return $command->execute();
+            }
         }
     
         return 'Unidentified command' . PHP_EOL;
