@@ -12,3 +12,5 @@
 --overtake overtaking=carId overtaken=carId
 
 --finish
+
+--create car driverName="teste teste" equip="teste" color="teste"
