@@ -15,6 +15,7 @@ class CommandEntry {
         '--overview' => OverviewCommand::class,
         '--positions' => PositionCommand::class,
         '--start' => StartCommand::class,
+        '--history' => HistoryCommand::class,
     ];
 
     public static function commandLoop(): void
@@ -23,7 +24,7 @@ class CommandEntry {
 
         $stopExecution = false;
         do {
-            echo  PHP_EOL . 'Waiting for the next command... (To stop execution type "stop"): ';
+            echo  PHP_EOL . 'Waiting for the next command... (To stop execution type "stop"):' . PHP_EOL;
 
             try {
                 echo self::identifyCommand();

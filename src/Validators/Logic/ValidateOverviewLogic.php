@@ -13,7 +13,7 @@ class ValidateOverviewLogic extends BaseValidateLogic implements ValidateLogic
         $raceStarted = $this->repository->get('race', ['*'], $where);
 
         if (empty($raceStarted)) {
-            throw new LogicException('There is not started race!');
+            throw new LogicException('There is not a started race!');
         }
     }
 }

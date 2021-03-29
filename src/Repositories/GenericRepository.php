@@ -57,7 +57,10 @@ class GenericRepository
         return $success;
     }
 
-    public function getById(string $table, array $selectColumns, $id): array
+    /**
+     * @return array|bool
+     */
+    public function getById(string $table, array $selectColumns, $id)
     {
         $select = implode(', ', $selectColumns);
         $stmt = $this->conn->prepare("SELECT ${select} FROM ${table} WHERE id = ${id};");
