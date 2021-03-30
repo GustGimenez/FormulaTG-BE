@@ -2,7 +2,7 @@
 
 namespace FormulaTG\Models;
 
-use Exception;
+use FormulaTG\Utils\Helper;
 
 class Race extends BaseModel
 {
@@ -45,25 +45,13 @@ class Race extends BaseModel
 
     public static function populate(array $data): BaseModel
     {
-        self::validatePopulate($data);
+        Helper::validatePopulate($data, self::getTableColumns(), 'Race');
 
         return new Race(
             $data['name'],
             new RaceStatus(RaceStatus::getStatusNameById($data['status_id']), $data['status_id']), 
             $data['id'],
         );
-    }
-
-    public static function validatePopulate(array $data): void 
-    {
-        $expectedValues = self::getTableColumns();
-        $expectedValue[] = 'id';
-
-        foreach ($expectedValues as $expectedValue) {
-            if (!array_key_exists($expectedValue, $data)) {
-                throw new Exception("The key $expectedValue is expected to create a new car");
-            }
-        }
     }
 
     public function stringfy(): string

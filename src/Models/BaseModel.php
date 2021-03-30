@@ -28,7 +28,5 @@ abstract class BaseModel
 
     public static abstract function populate(array $data): BaseModel;
 
-    protected static abstract function validatePopulate(array $data): void;
-
     public abstract function stringfy(): string;
 }
