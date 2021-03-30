@@ -13,6 +13,6 @@
 
 --finish
 
---create car driverName="teste teste" equip="teste" color="teste"
+--create car pilot=id equip="teste" color="teste"
 
 --history id

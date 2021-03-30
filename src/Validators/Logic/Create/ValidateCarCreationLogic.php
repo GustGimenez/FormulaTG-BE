@@ -18,18 +18,33 @@ class ValidateCarCreationLogic implements ValidateLogic
 
     public function validate(array $params): void
     {
+        $this->checkIfPilotExists($params['pilot']);
+
         $cars = $this->repository->listAll('car');
-        
-        $this->checkDriverName($cars, $params['driverName']);
+
+        $this->checkIfPilotIsInAnotherCar($params['pilot'], $cars);
         $this->checkEquipCount($cars, $params['equip']);
     }
 
-    private function checkDriverName(array $cars, string $driverName): void
+    private function checkIfPilotExists(int $pilotId): void
     {
-        foreach ($cars as $car) {
-            if ($car['driver_name'] === $driverName) {
-                throw new CommandException("The driver informed is the pilot of car nº {$car['id']}");
-            }
+        $where = ['id' => ['=', $pilotId]];
+
+        $pilot = $this->repository->get('pilot', ['*'], $where);
+
+        if (empty($pilot)) {
+            throw new CommandException("Pilot $pilotId does not exist!");
+        }
+    }
+
+    private function checkIfPilotIsInAnotherCar(int $pilotId, array $cars): void
+    {
+        $carWithPilot = array_filter($cars, function($car) use ($pilotId) {
+            return intval($car['pilot_id']) === $pilotId;
+        });
+
+        if (!empty($carWithPilot)) {
+            throw new CommandException("The pilot $pilotId is already in another car");
         }
     }
 

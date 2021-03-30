@@ -40,7 +40,7 @@ class CreateCommand extends Command
                 $expectedParams = [
                     'color', 
                     'equip', 
-                    'driverName',
+                    'pilot',
                 ];
 
                 $logicValidator = new ValidateCarCreationLogic();
@@ -75,7 +75,7 @@ class CreateCommand extends Command
                 $car = new Car(
                     $this->formedParams['color'], 
                     $this->formedParams['equip'], 
-                    $this->formedParams['driverName'],
+                    $this->formedParams['pilot'],
                 );
                 $this->repository->insert($car, 'car', Car::getTableColumns());
                 
