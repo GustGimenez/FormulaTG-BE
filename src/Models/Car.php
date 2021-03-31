@@ -2,20 +2,20 @@
 
 namespace FormulaTG\Models;
 
-use Exception;
+use FormulaTG\Utils\Helper;
 
 class Car extends BaseModel
 {
     private string $color;
     private string $equip;
-    private string $driverName;
+    private string $pilotId;
 
-    public function __construct(string $color, string $equip, string $driverName, int $id = 0)
+    public function __construct(string $color, string $equip, int $pilotId, int $id = 0)
     {
         $this->id = $id;
         $this->color = $color;
         $this->equip = $equip;
-        $this->driverName = $driverName;
+        $this->pilotId = $pilotId;
     }
 
     public function getColor(): string
@@ -28,9 +28,9 @@ class Car extends BaseModel
         return $this->equip;
     }
 
-    public function getDriverName(): string
+    public function getPilotId(): string
     {
-        return $this->driverName;
+        return $this->pilotId;
     }
 
     public static function getTableColumns(): array
@@ -38,7 +38,7 @@ class Car extends BaseModel
         return [
             'color', 
             'equip',
-            'driver_name',
+            'pilot_id',
         ];
     }
 
@@ -47,31 +47,19 @@ class Car extends BaseModel
         return [
             'color' => $this->color,
             'equip' => $this->equip,
-            'driver_name' => $this->driverName,
+            'pilot_id' => $this->pilotId,
         ];
-    }
-
-    protected static function validatePopulate(array $data): void 
-    {
-        $expectedValues = self::getTableColumns();
-        $expectedValue[] = 'id';
-
-        foreach ($expectedValues as $expectedValue) {
-            if (!array_key_exists($expectedValue, $data)) {
-                throw new Exception("The key $expectedValue is expected to create a new car");
-            }
-        }
     }
 
     public static function populate(array $data): BaseModel
     {
-        self::validatePopulate($data);
+        Helper::validatePopulate($data, self::getTableColumns(), 'Car');
 
-        return new Car($data['color'], $data['equip'], $data['driver_name'], $data['id']);
+        return new Car($data['color'], $data['equip'], $data['pilot_id'], $data['id']);
     }
 
     public function stringfy(): string
     {
-        return "Car n°: {$this->id}, color: {$this->color}, equip: {$this->equip}, driver: {$this->driverName}";
+        return "Car n°: {$this->id}, color: {$this->color}, equip: {$this->equip}";
     }
 }

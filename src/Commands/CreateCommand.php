@@ -6,12 +6,14 @@ use Exception;
 use FormulaTG\Commands\Command;
 use FormulaTG\Exceptions\CommandException;
 use FormulaTG\Models\Car;
+use FormulaTG\Models\Pilot;
 use FormulaTG\Models\Race;
 use FormulaTG\Utils\Helper;
 use FormulaTG\Validators\Command\CountParams;
 use FormulaTG\Validators\Command\ParamsValues;
 use FormulaTG\Validators\Command\ParamsWereInformed;
 use FormulaTG\Validators\Logic\Create\ValidateCarCreationLogic;
+use FormulaTG\Validators\Logic\Create\ValidatePilotCreationLogic;
 use FormulaTG\Validators\Logic\Create\ValidateRaceCreationLogic;
 
 class CreateCommand extends Command
@@ -40,7 +42,7 @@ class CreateCommand extends Command
                 $expectedParams = [
                     'color', 
                     'equip', 
-                    'driverName',
+                    'pilot',
                 ];
 
                 $logicValidator = new ValidateCarCreationLogic();
@@ -50,6 +52,12 @@ class CreateCommand extends Command
                 $expectedParams = ['name'];
                 
                 $logicValidator = new ValidateRaceCreationLogic();
+                break;
+
+            case 'pilot':
+                $expectedParams = ['name', 'age'];
+
+                $logicValidator = new ValidatePilotCreationLogic();
                 break;
 
             default:
@@ -75,7 +83,7 @@ class CreateCommand extends Command
                 $car = new Car(
                     $this->formedParams['color'], 
                     $this->formedParams['equip'], 
-                    $this->formedParams['driverName'],
+                    $this->formedParams['pilot'],
                 );
                 $this->repository->insert($car, 'car', Car::getTableColumns());
                 
@@ -86,10 +94,15 @@ class CreateCommand extends Command
                 $this->repository->insert($race, 'race', Race::getTableColumns());
                 
                 return $race->stringfy();
-                break;
 
-            default:
-                return 'Unexpected entity';
+            case 'pilot':
+                $pilot = new Pilot(
+                    $this->formedParams['name'],
+                    $this->formedParams['age'],
+                );
+                $this->repository->insert($pilot, 'pilot', Pilot::getTableColumns());
+
+                return $pilot->stringfy();
         }
     }
 

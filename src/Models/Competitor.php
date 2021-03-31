@@ -2,7 +2,7 @@
 
 namespace FormulaTG\Models;
 
-use Exception;
+use FormulaTG\Utils\Helper;
 
 class Competitor extends BaseModel
 {
@@ -38,7 +38,7 @@ class Competitor extends BaseModel
 
     public static function populate(array $data): BaseModel
     {
-        self::validatePopulate($data);
+        Helper::validatePopulate($data, self::getTableColumns(), 'Competitor');
 
         return new Competitor(
             $data['position'],
@@ -46,18 +46,6 @@ class Competitor extends BaseModel
             $data['car_id'],
             $data['id']
         );
-    }
-
-    protected static function validatePopulate(array $data): void
-    {
-        $expectedValues = self::getTableColumns();
-        $expectedValue[] = 'id';
-
-        foreach ($expectedValues as $expectedValue) {
-            if (!array_key_exists($expectedValue, $data)) {
-                throw new Exception("The key $expectedValue is expected to create a new car");
-            }
-        }
     }
 
     public function stringfy(): string

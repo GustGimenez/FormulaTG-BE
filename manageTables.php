@@ -7,11 +7,18 @@ use FormulaTG\Config\Database\Connection;
 $conn = Connection::createConnection();
 
 // $createTableSql = '
+//     CREATE TABLE IF NOT EXISTS pilot (
+//         id INTEGER PRIMARY KEY,
+//         name TEXT,
+//         age INTEGER
+//     );
+
 //     CREATE TABLE IF NOT EXISTS car (
 //         id INTEGER PRIMARY KEY,
 //         color TEXT,
 //         equip TEXT,
-//         driver_name TEXT
+//         pilot_id INTEGER,
+//         FOREIGN KEY (pilot_id) REFERENCES pilot (id) 
 //     );
 
 //     CREATE TABLE IF NOT EXISTS race_status (
@@ -47,5 +54,5 @@ $conn = Connection::createConnection();
 // ';
 // var_dump($conn->exec($createTableSql));
 
-$sql = 'DELETE FROM car';
+$sql = 'SELECT * FROM race';
 var_dump($conn->exec($sql));
