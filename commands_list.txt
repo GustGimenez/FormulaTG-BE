@@ -1,7 +1,8 @@
 --list [car|race]
 
---create car driverName="" color="" equip=""
+--create car pilot=id color="" equip=""
 --create race name=""
+--create pilot name="" age=age
 
 --positions race=id cars=[ids]
 
@@ -12,7 +13,5 @@
 --overtake overtaking=carId overtaken=carId
 
 --finish
-
---create car pilot=id equip="teste" color="teste"
 
 --history id
