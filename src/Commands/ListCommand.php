@@ -5,6 +5,7 @@ namespace FormulaTG\Commands;
 use Exception;
 use FormulaTG\Exceptions\CommandException;
 use FormulaTG\Models\Car;
+use FormulaTG\Models\Pilot;
 use FormulaTG\Models\Race;
 use FormulaTG\Validators\Command\CountParams;
 
@@ -68,6 +69,12 @@ class ListCommand extends Command
 
             case 'race':
                 return $this->listEntities('race', Race::class);
+
+            case 'pilot':
+                return $this->listEntities('pilot', Pilot::class);
+
+            default:
+                return 'Invalid entity to list';
         }
     }
 }

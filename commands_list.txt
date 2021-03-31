@@ -1,4 +1,4 @@
---list [car|race]
+--list [car|race|pilot]
 
 --create car pilot=id color="" equip=""
 --create race name=""
