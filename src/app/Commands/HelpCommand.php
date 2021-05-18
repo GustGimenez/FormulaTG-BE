@@ -27,7 +27,7 @@ class HelpCommand extends Command
         }
 
         if (count($this->params) === 0) {
-            return PHP_EOL . HelpInfo::GENERAL_HELP . PHP_EOL;
+            return HelpInfo::GENERAL_HELP;
         }
         
         $helpInfo = '';
@@ -70,6 +70,6 @@ class HelpCommand extends Command
                 break;
         }
 
-        return PHP_EOL . $helpInfo . PHP_EOL;
+        return $helpInfo;
     }
 }

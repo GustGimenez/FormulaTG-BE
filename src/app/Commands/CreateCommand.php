@@ -23,7 +23,6 @@ class CreateCommand extends Command
 
     protected function identifyEntity(): void
     {
-        // TODO percorrer procurando uma das entidades do array
         $this->entity = $this->params[0];
     }
 

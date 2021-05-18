@@ -30,7 +30,7 @@ class CommandEntry {
             '(For help type "--help"): ' . PHP_EOL;
 
             try {
-                echo self::identifyCommand();
+                echo PHP_EOL . self::identifyCommand() . PHP_EOL;
             } catch (Exception $e) {
                 $e->getMessage();
             }

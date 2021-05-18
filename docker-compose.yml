@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  formula-tg:
+    build:
+      dockerfile: ./dockerfile
+      context: .
+    container_name: formulga-tg
+    volumes:
+    - ./src:/var/www
+    stdin_open: true
+    tty: true
+
