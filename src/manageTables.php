@@ -54,5 +54,7 @@ $conn = Connection::createConnection();
 // ';
 // var_dump($conn->exec($createTableSql));
 
-$sql = 'SELECT * FROM race';
-var_dump($conn->exec($sql));
+// $sql = 'DROP TABLE IF EXISTS pilot';
+// var_dump($conn->exec($sql));
+
+echo "ta atualizando em" . PHP_EOL;

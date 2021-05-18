@@ -10,8 +10,9 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "FormulaTG\\": "src/",
-            "FormulaTG\\Config\\": "config/"
+            "FormulaTG\\": "./app/",
+            "FormulaTG\\Config\\": "./config/"
         }
-    }
+    },
+    "description": ""
 }
