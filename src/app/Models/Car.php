@@ -60,6 +60,6 @@ class Car extends BaseModel
 
     public function stringfy(): string
     {
-        return "Car n°: {$this->id}, color: {$this->color}, equip: {$this->equip}";
+        return "Car n°: {$this->id}, color: {$this->color}, equip: {$this->equip}, pilot n°: {$this->pilotId}";
     }
 }
