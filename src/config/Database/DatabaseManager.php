@@ -21,5 +21,8 @@ class DatabaseManager
 
         $sql = 'DELETE FROM car';
         $conn->exec($sql);
+
+        $sql = 'DELETE FROM pilot';
+        $conn->exec($sql);
     }
 }

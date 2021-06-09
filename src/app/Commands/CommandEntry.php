@@ -130,7 +130,7 @@ class CommandEntry {
 
     private static function identifyCommand(): string
     {
-        $handle = fopen ('php://stdin', 'r');
+        $handle = fopen('php://stdin', 'r');
         $command = trim(fgets($handle));
 
         self::checkForExitCommand($command);

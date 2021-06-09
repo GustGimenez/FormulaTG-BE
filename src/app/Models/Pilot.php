@@ -38,6 +38,6 @@ class Pilot extends BaseModel
 
     public function stringfy(): string
     {
-        return "Pilot n°: {$this->id}, name: {$this->name}, age {$this->age}";
+        return "Pilot n°: {$this->id}, name: {$this->name}, age: {$this->age}";
     }
 }
