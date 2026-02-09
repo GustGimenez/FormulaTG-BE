@@ -7,7 +7,6 @@ services:
       context: .
     container_name: formulga-tg
     volumes:
-    - ./src:/var/www
+      - ./src:/var/www
     stdin_open: true
     tty: true
-

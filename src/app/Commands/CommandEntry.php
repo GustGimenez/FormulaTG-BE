@@ -21,7 +21,7 @@ class CommandEntry {
 
     public static function commandLoop(): void
     {
-        echo '----- Welcome to Gutavo\'s Formula TG -----' . PHP_EOL . PHP_EOL;
+        echo '----- Welcome to Gustavo\'s Formula TG -----' . PHP_EOL . PHP_EOL;
 
         $stopExecution = false;
         do {
